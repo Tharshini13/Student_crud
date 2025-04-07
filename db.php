@@ -1,9 +1,14 @@
 <?php
-include 'config.php';
+// db.php
 
-$connection = mysqli_connect("localhost", "root", "", "studentss");
+$host = 'localhost';
+$dbname = 'studentss';
+$username = 'root';
+$password = ''; 
 
-if (!$connection) {
-    die("Connection failed: " . mysqli_connect_error());
+$conn = new mysqli($host, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 ?>

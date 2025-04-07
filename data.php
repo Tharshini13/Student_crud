@@ -29,41 +29,44 @@ include 'db.php';
             <tbody>
             <?php
                 $sql = "SELECT * FROM stud";
-                $run = mysqli_query($connection, $sql);
+                $run = mysqli_query($conn, $sql);
                 $id = 1;
-                while ($row = mysqli_fetch_assoc($run)) {
-                    ?>
-                    <tr>
-                        <td><?php echo $id; ?></td>
-                        <td><?php echo htmlspecialchars($row['name']); ?></td>
-                        <td><?php echo htmlspecialchars($row['age']); ?></td>
-                        <td><?php echo htmlspecialchars($row['mobile']); ?></td>
-                        <td><?php echo htmlspecialchars($row['gender']); ?></td>
-                        <td><?php echo htmlspecialchars($row['course']); ?></td>
-                        <td><?php echo htmlspecialchars($row['skills']); ?></td>
-                        <td>
-                            <?php if (!empty($row['file'])) : ?>
-                                <a href="<?php echo htmlspecialchars($row['file']); ?>" target="_blank">View File</a>
-                            <?php else : ?>
-                                No File
-                            <?php endif; ?>
-                        </td>
-                        <td>
-                            <a href="edit.php?edit=<?php echo $row['id']; ?>" class="btn btn-success">Edit</a>
-                            <a href="delete.php?del=<?php echo $row['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure?');">Delete</a>
-                        </td>
-                    </tr>
-                    <?php 
-                    $id++;
-                } 
+                if ($run && mysqli_num_rows($run) > 0) {
+                    while ($row = mysqli_fetch_assoc($run)) {
+                        ?>
+                        <tr>
+                            <td><?php echo $id; ?></td>
+                            <td><?php echo htmlspecialchars($row['name']); ?></td>
+                            <td><?php echo htmlspecialchars($row['age']); ?></td>
+                            <td><?php echo htmlspecialchars($row['mobile']); ?></td>
+                            <td><?php echo htmlspecialchars($row['gender']); ?></td>
+                            <td><?php echo htmlspecialchars($row['course']); ?></td>
+                            <td><?php echo htmlspecialchars($row['skills']); ?></td>
+                            <td>
+                                <?php if (!empty($row['file'])) : ?>
+                                    <a href="<?php echo htmlspecialchars($row['file']); ?>" target="_blank">View File</a>
+                                <?php else : ?>
+                                    No File
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <a href="edit.php?edit=<?php echo $row['id']; ?>" class="btn btn-success">Edit</a>
+                                <a href="delete.php?del=<?php echo $row['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure?');">Delete</a>
+                            </td>
+                        </tr>
+                        <?php 
+                        $id++;
+                    }
+                } else {
+                    echo "<tr><td colspan='9'>No records found</td></tr>";
+                }
             ?>
             </tbody>
         </table>
         <div class="text-center mt-3">
             <a href="add.php" class="btn btn-primary">Add New</a>
-            <a href="login.php" class="btn btn-primary">logout</a>
+            <a href="login.php" class="btn btn-primary">Logout</a>
         </div>
     </div>
-
 </body>
 </html>

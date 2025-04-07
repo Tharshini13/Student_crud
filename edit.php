@@ -1,11 +1,10 @@
 <?php
 include 'db.php';
 
-
 if (isset($_GET['edit'])) {
     $id = $_GET['edit'];
     $sql = "SELECT * FROM stud WHERE id='$id'";
-    $result = mysqli_query($connection, $sql);
+    $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($result);
 
     if (!$row) {
@@ -16,34 +15,30 @@ if (isset($_GET['edit'])) {
 
 if (isset($_POST['update'])) {
     $id = $_POST['id'];
-    $name = mysqli_real_escape_string($connection, $_POST['name']);
-    $age = mysqli_real_escape_string($connection, $_POST['age']);
-    $mobile = mysqli_real_escape_string($connection, $_POST['mobile']);
-    $gender = mysqli_real_escape_string($connection, $_POST['gender']);
-    $course = mysqli_real_escape_string($connection, $_POST['course']);
-    
+    $name = mysqli_real_escape_string($conn, $_POST['name']);
+    $age = mysqli_real_escape_string($conn, $_POST['age']);
+    $mobile = mysqli_real_escape_string($conn, $_POST['mobile']);
+    $gender = mysqli_real_escape_string($conn, $_POST['gender']);
+    $course = mysqli_real_escape_string($conn, $_POST['course']);
 
     $skills = isset($_POST['skills']) ? implode(", ", $_POST['skills']) : '';
-    $skills = mysqli_real_escape_string($connection, $skills);
-
+    $skills = mysqli_real_escape_string($conn, $skills);
 
     if (!empty($_FILES['file']['name'])) {
         $filename = $_FILES['file']['name'];
         $tempname = $_FILES['file']['tmp_name'];
         $folder = "uploads/" . $filename;
         move_uploaded_file($tempname, $folder);
-        
 
         $sql = "UPDATE stud SET name='$name', age='$age', mobile='$mobile', gender='$gender', course='$course', skills='$skills', file='$folder' WHERE id='$id'";
     } else {
-
         $sql = "UPDATE stud SET name='$name', age='$age', mobile='$mobile', gender='$gender', course='$course', skills='$skills' WHERE id='$id'";
     }
-    
-    if (mysqli_query($connection, $sql)) {
-        echo '<script>location.replace("index.php")</script>';
+
+    if (mysqli_query($conn, $sql)) {
+        echo '<script>location.replace("data.php")</script>';
     } else {
-        echo 'Error: ' . mysqli_error($connection);
+        echo 'Error: ' . mysqli_error($conn);
     }
 }
 ?>

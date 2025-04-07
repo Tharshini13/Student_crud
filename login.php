@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'config.php';
+include 'db.php';
 
 $message = "";
 
@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($password, $user['password'])) {
             session_regenerate_id(true);
             $_SESSION['username'] = $user['username'];
-            header("Location: index.php");
+            header("Location: data.php");
             exit();
         } else {
             $message = "<div class='alert alert-danger'>Invalid password!</div>";
