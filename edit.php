@@ -1,5 +1,5 @@
 <?php
-include 'db.php';
+include 'config.php';
 
 
 if (isset($_GET['edit'])) {
@@ -41,7 +41,7 @@ if (isset($_POST['update'])) {
     }
     
     if (mysqli_query($connection, $sql)) {
-        echo '<script>location.replace("index.php")</script>';
+        echo '<script>location.replace("data.php")</script>';
     } else {
         echo 'Error: ' . mysqli_error($connection);
     }

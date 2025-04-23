@@ -1,12 +1,12 @@
 <?php
-$host = "localhost";
-$user = "root";
-$pass = "";
-$dbname = "user_system";
+$host = 'localhost';
+$username = 'root';
+$password = '';
+$database = 'studentss'; 
 
-$conn = new mysqli($host, $user, $pass, $dbname);
+$connection = new mysqli($host, $username, $password, $database);
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if ($connection->connect_error) {
+    die("Connection failed: " . $connection->connect_error);
 }
 ?>

@@ -1,7 +1,13 @@
 <?php 
-include 'db.php';
+include 'config.php'; // Ensure this file has the proper database connection
+
+// Check if the connection is established
+if (!$connection) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
 if (isset($_POST['submit'])) {
+    // Sanitize input data to prevent SQL injection
     $name = mysqli_real_escape_string($connection, $_POST['name']);
     $age = mysqli_real_escape_string($connection, $_POST['age']);
     $mobile = mysqli_real_escape_string($connection, $_POST['mobile']);
@@ -11,18 +17,21 @@ if (isset($_POST['submit'])) {
     $skills = isset($_POST['skills']) ? implode(", ", $_POST['skills']) : '';
     $skills = mysqli_real_escape_string($connection, $skills);
 
+    // File upload handling
     $filename = $_FILES["file"]["name"];
     $tempname = $_FILES["file"]["tmp_name"];
     $folder = "uploads/" . $filename;
     move_uploaded_file($tempname, $folder);
 
+    // SQL query to insert the data
     $sql = "INSERT INTO stud (name, age, mobile, gender, course, skills, file) 
             VALUES ('$name', '$age', '$mobile', '$gender', '$course', '$skills', '$folder')";
     
+    // Execute the query
     if (mysqli_query($connection, $sql)) {
-        echo '<script>location.replace("index.php")</script>';
+        echo '<script>location.replace("data.php")</script>';
     } else {
-        echo 'Error: ' . $connection->error;
+        echo 'Error: ' . mysqli_error($connection); // Use mysqli_error for better error reporting
     }
 }
 ?>

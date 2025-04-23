@@ -7,9 +7,8 @@ $message = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST['username']);
     $password = $_POST['password'];
-
     $sql = "SELECT * FROM users WHERE username = ?";
-    $stmt = $conn->prepare($sql);
+    $stmt = $connection->prepare($sql);
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -19,13 +18,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($password, $user['password'])) {
             session_regenerate_id(true);
             $_SESSION['username'] = $user['username'];
-            header("Location: index.php");
+            header("Location: data.php");
             exit();
         } else {
             $message = "<div class='alert alert-danger'>Invalid password!</div>";
         }
     } else {
         $message = "<div class='alert alert-danger'>User not found!</div>";
+    }
+    if ($stmt->execute()) {
+        $_SESSION['username'] = $username;
+
+        echo "<div class='alert alert-success text-center'>login successful! Welcome, $username. <a href='dashboard.php' class='btn btn-sm btn-primary'>Go to Dashboard</a></div>";
+    } else {
+        echo "<div class='alert alert-danger text-center'>Error: " . $stmt->error . "</div>";
     }
 }
 ?>

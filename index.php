@@ -1,17 +1,21 @@
 <?php
-include 'config.php';
+session_start(); // Start the session
+
+include 'config.php'; // Include your database connection
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST['username']);
     $email = trim($_POST['email']);
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
     $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
+    $stmt = $connection->prepare($sql);
     $stmt->bind_param("sss", $username, $email, $password);
 
     if ($stmt->execute()) {
-        echo "<div class='alert alert-success text-center'>Registration successful! <a href='login.php' class='btn btn-sm btn-primary'>Login here</a></div>";
+        // Store the username in session
+        $_SESSION['username'] = $username;
+
+        echo "<div class='alert alert-success text-center'>Registration successful! Welcome, $username. <a href='dashboard.php' class='btn btn-sm btn-primary'>Go to Dashboard</a></div>";
     } else {
         echo "<div class='alert alert-danger text-center'>Error: " . $stmt->error . "</div>";
     }
@@ -49,7 +53,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <label class="form-label">Password</label>
                             <input type="password" name="password" class="form-control" required>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Register</button>
+                        <button type="submit" class="btn btn-primary w-100">Register</button><br>
+                        <div class='alert alert-success text-center'>If you already have an account, login <a href='login.php' class='btn btn-sm btn-primary'>here</a></div>
                     </form>
                 </div>
                  
