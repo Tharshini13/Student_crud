@@ -1,37 +1,31 @@
 <?php 
-include 'config.php'; // Ensure this file has the proper database connection
-
-// Check if the connection is established
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+include 'config.php';
 if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());
 }
-
 if (isset($_POST['submit'])) {
-    // Sanitize input data to prevent SQL injection
     $name = mysqli_real_escape_string($connection, $_POST['name']);
     $age = mysqli_real_escape_string($connection, $_POST['age']);
     $mobile = mysqli_real_escape_string($connection, $_POST['mobile']);
     $gender = mysqli_real_escape_string($connection, $_POST['gender']);
     $course = mysqli_real_escape_string($connection, $_POST['course']);
-    
     $skills = isset($_POST['skills']) ? implode(", ", $_POST['skills']) : '';
     $skills = mysqli_real_escape_string($connection, $skills);
-
-    // File upload handling
     $filename = $_FILES["file"]["name"];
     $tempname = $_FILES["file"]["tmp_name"];
     $folder = "uploads/" . $filename;
     move_uploaded_file($tempname, $folder);
-
-    // SQL query to insert the data
     $sql = "INSERT INTO stud (name, age, mobile, gender, course, skills, file) 
             VALUES ('$name', '$age', '$mobile', '$gender', '$course', '$skills', '$folder')";
-    
-    // Execute the query
     if (mysqli_query($connection, $sql)) {
         echo '<script>location.replace("data.php")</script>';
     } else {
-        echo 'Error: ' . mysqli_error($connection); // Use mysqli_error for better error reporting
+        echo 'Error: ' . mysqli_error($connection); 
     }
 }
 ?>
@@ -43,6 +37,16 @@ if (isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Student</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #7b2ff7, #f107a3);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }</style>
 </head>
 <body>
     <div class="container mt-4">

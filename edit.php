@@ -1,4 +1,11 @@
 <?php
+
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+
 include 'config.php';
 
 
@@ -55,6 +62,16 @@ if (isset($_POST['update'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Student</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #7b2ff7, #f107a3);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }</style>
 </head>
 <body>
     <div class="container mt-4">

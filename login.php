@@ -47,10 +47,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <style>
         body {
-            min-height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #7b2ff7, #f107a3);
+            height: 100vh;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
         }
 
         .card {

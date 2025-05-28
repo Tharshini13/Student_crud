@@ -3,6 +3,7 @@ session_start();
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,7 +65,7 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
     <?php else: ?>
         <h1>Please log in first.</h1>
     <?php endif; ?>
-    <div class='alert alert-success text-center'>If you already have an account <a href='login.php' class='btn btn-sm btn-primary'>login</a></div>
+    <a href="login.php" class="btn btn-primary">login here</a>
 </div>
 
 </body>
